@@ -24,10 +24,10 @@
     }
     loading = true;
     let createdCategory = category;
-    if (category != null && !category?.id?.trim()) {
+    if (createdCategory !== null && !createdCategory?.id) {
       createdCategory = await pb.collection("categories").create(
         {
-          name: category.name,
+          name: createdCategory.name,
         },
         {
           requestKey: "category",
@@ -53,6 +53,14 @@
         promises = [...promises];
       }
       const created = await pb.collection("vulnerabilities").create(formData);
+      const categories = await pb
+        .collection("inactive_categories")
+        .getFullList();
+      for (const category of categories) {
+        if (category.id != created.category) {
+          await pb.collection("categories").delete(category.id);
+        }
+      }
       await invalidateAll();
       await goto(`${base}/vulnerabilities/${created.id}`);
     } catch (err) {
@@ -65,7 +73,11 @@
   }
 </script>
 
-<form class="flex flex-col space-y-8" on:submit={createVulnerability}>
+<form
+  class="flex flex-col space-y-8"
+  on:submit={createVulnerability}
+  class:pointer-events-none={loading}
+>
   <div
     class="flex w-full justify-between lg:items-center <lg:(space-y-2 flex-col) lg:space-x-2"
   >

@@ -50,7 +50,7 @@
 >
   {#if open}
     <div
-      class="div fixed w-full flex flex-col h-full bg-white dark:bg-dark-900 z-50 top-0 left-0 overflow-y-auto lg:hidden"
+      class="div fixed w-full flex flex-col h-full bg-white dark:bg-dark-900 z-50 top-0 left-0 overflow-y-auto xl:hidden"
       transition:fade={{ duration: 200 }}
     >
       <div
@@ -85,10 +85,10 @@
   <div class="z-51">
     <Logo />
   </div>
-  <div class="z-52 pr4 lg:hidden">
+  <div class="z-52 pr4 xl:hidden">
     <Hamburger {open} on:click={() => (open = !open)} duoLine={false} />
   </div>
-  <div class="flex items-center space-x-4 <lg:hidden">
+  <div class="flex items-center space-x-4 <xl:hidden">
     <!-- <button -->
     <!--   on:click={() => { -->
     <!--     $uploadModal = true; -->
@@ -111,7 +111,7 @@
 
 <div class="flex flex-grow h-0 w-full">
   <div
-    class="w-15% border-r dark:border-dark-50 h-full flex flex-grow flex-col <lg:hidden overflow-y-auto"
+    class="w-15% border-r dark:border-dark-50 h-full flex flex-grow flex-col <xl:hidden overflow-y-auto"
   >
     <SidebarMenu />
   </div>
