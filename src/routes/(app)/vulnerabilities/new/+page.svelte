@@ -18,10 +18,7 @@
   async function createVulnerability() {
     if (loading) return;
     const required = ["title", "severity", "status"];
-    if (
-      required.some((r) => !String(vulnerability[r] || "").trim()) ||
-      wordCount == 0
-    ) {
+    if (required.some((r) => !String(vulnerability[r] || "").trim())) {
       alert("Debes llenar los campos obligatorios");
       return;
     }
@@ -42,7 +39,7 @@
       const formData = new FormData();
       formData.append("author", $user!.id);
       formData.append("title", vulnerability.title);
-      formData.append("description", vulnerability.description);
+      formData.append("description", vulnerability.description || "");
       formData.append("severity", vulnerability.severity);
       formData.append("status", vulnerability.status);
       if (createdCategory != null) {
