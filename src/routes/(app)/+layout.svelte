@@ -54,7 +54,7 @@
       transition:fade={{ duration: 200 }}
     >
       <div
-        class="flex w-full h-200px bg-gradient-to-b fixed z-20 from-white to-transparent dark:from-dark-900"
+        class="flex w-full h-200px bg-gradient-to-b fixed z-20 from-white to-transparent dark:from-dark-900 pointer-events-none"
       />
       <div class="pt28 flex flex-col p4 relative">
         <p
