@@ -23,8 +23,15 @@
   }
 
   async function del() {
-    await pb.collection("incidents").delete(data.incident.id);
-    goto(`${base}/incidents`);
+    if (data.incident.deleted) {
+      await pb.collection("incidents").delete(data.incident.id!);
+    } else {
+      await pb.collection("incidents").update(data.incident.id!, {
+        deleted: true,
+      });
+    }
+    await invalidateAll();
+    goto(`${base}/vulnerabilities`);
   }
 </script>
 
