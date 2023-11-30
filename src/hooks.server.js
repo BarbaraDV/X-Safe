@@ -4,7 +4,10 @@ export async function handle({ event, resolve }) {
   pb.authStore.loadFromCookie(event.request.headers.get("cookie") || "");
   if (pb.authStore.isValid) {
     try {
-      await pb.collection("users").authRefresh();
+      const auth = await pb.collection("users").authRefresh();
+      if (auth.record.blocked) {
+        pb.authStore.clear();
+      }
     } catch (_) {
       pb.authStore.clear();
     }
@@ -18,7 +21,7 @@ export async function handle({ event, resolve }) {
   // after
   response.headers.set(
     "set-cookie",
-    pb.authStore.exportToCookie({ httpOnly: false }),
+    pb.authStore.exportToCookie({ httpOnly: false })
   );
 
   return response;
