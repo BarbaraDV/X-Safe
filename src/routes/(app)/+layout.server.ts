@@ -5,11 +5,9 @@ export async function load({ locals }) {
   if (!locals.user) {
     throw redirect(303, "/login");
   }
-  const categories = await locals.pb
-    .collection("active_categories")
-    .getFullList({
-      sort: "name",
-    });
+  const categories = await locals.pb.collection("categories").getFullList({
+    sort: "name",
+  });
   return {
     categories,
   };

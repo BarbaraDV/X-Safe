@@ -1,5 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { ClientResponseError } from "pocketbase";
+import { ClientResponseError, type RecordModel } from "pocketbase";
 
 export const actions = {
   default: async ({ locals, request }) => {
@@ -14,6 +14,24 @@ export const actions = {
     }
 
     try {
+      let existentUser: RecordModel | undefined;
+      try {
+        existentUser = await locals.pb
+          .collection("users")
+          .getFirstListItem(`email = "${data.email}"`);
+      } catch {
+        existentUser = undefined;
+      }
+      if (existentUser) {
+        if (existentUser.blocked) {
+          return fail(400, {
+            error: "Usted ha sido bloqueado, contacte con un administrador",
+          });
+        }
+        return fail(400, {
+          error: "Correo tomado",
+        });
+      }
       const { totalItems } = await locals.pb.collection("users").getList(1, 1);
       const user = await locals.pb.collection("users").create({
         username: data.email.split("@")[0],

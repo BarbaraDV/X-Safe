@@ -25,14 +25,20 @@
     loading = true;
     let createdCategory = category;
     if (createdCategory !== null && !createdCategory?.id) {
-      createdCategory = await pb.collection("categories").create(
-        {
-          name: createdCategory.name,
-        },
-        {
-          requestKey: "category",
-        }
-      );
+      try {
+        createdCategory = await pb
+          .collection("categories")
+          .getOne(createdCategory.id!, {});
+      } catch {
+        createdCategory = await pb.collection("categories").create(
+          {
+            name: createdCategory!.name,
+          },
+          {
+            requestKey: "category",
+          }
+        );
+      }
     }
     try {
       let promises: Promise<RecordModel>[] = [];
@@ -42,8 +48,8 @@
       formData.append("description", vulnerability.description || "");
       formData.append("severity", vulnerability.severity);
       formData.append("status", vulnerability.status);
-      if (createdCategory != null) {
-        formData.append("category", createdCategory?.id!);
+      if (category != null) {
+        formData.append("category", category?.id || category?.name || "");
       }
       if (incident != null) {
         formData.append("incident", incident?.id!);
@@ -53,21 +59,10 @@
         promises = [...promises];
       }
       const created = await pb.collection("vulnerabilities").create(formData);
-      const categories = await pb
-        .collection("inactive_categories")
-        .getFullList();
-      for (const category of categories) {
-        if (category.id != created.category) {
-          await pb.collection("categories").delete(category.id);
-        }
-      }
       await invalidateAll();
       await goto(`${base}/vulnerabilities/${created.id}`);
     } catch (err) {
       console.log(err);
-      if (createdCategory != null && !category?.id?.trim()) {
-        await pb.collection("categories").delete(createdCategory.id!);
-      }
       loading = false;
     }
   }

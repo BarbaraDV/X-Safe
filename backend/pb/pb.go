@@ -33,35 +33,6 @@ func init() {
 	App = pocketbase.NewWithConfig(pocketbase.Config{
 		DefaultDataDir: path,
 	})
-	// fn := func(e *core.ModelEvent) error {
-	// 	if e.Model.TableName() != "vulnerabilities" {
-	// 		return nil
-	// 	}
-	// 	data, _ := App.Dao().FindRecordById("vulnerabilities", e.Model.GetId())
-	// 	query := App.Dao().RecordQuery("inactive_categories")
-	// 	records := []*models.Record{}
-	// 	if err := query.All(&records); err != nil {
-	// 		log.Println(err)
-	// 		return nil
-	// 	}
-	// 	for _, r := range records {
-	// 		record, err := App.Dao().FindRecordById("categories", r.GetId())
-	// 		if err != nil {
-	// 			log.Println(err)
-	// 			return nil
-	// 		}
-	// 		if data.Get("category") != record.GetId() {
-	// 			if err := App.Dao().DeleteRecord(record); err != nil {
-	// 				log.Println(err)
-	// 				return nil
-	// 			}
-	// 		}
-	// 	}
-	// 	return nil
-	// }
-	// App.OnModelAfterCreate("vulnerabilities").Add(fn)
-	// App.OnModelAfterDelete("vulnerabilities").Add(fn)
-	// App.OnModelAfterUpdate("vulnerabilities").Add(fn)
 }
 
 func disableAdminMiddleware() echo.MiddlewareFunc {

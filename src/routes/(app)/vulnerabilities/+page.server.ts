@@ -1,7 +1,7 @@
 export async function load({ url, locals }) {
   const page = +(url.searchParams.get("page") || "") || 1;
   const perPage = 10;
-  let filters: string[] = [];
+  let filters: string[] = ["deleted = false"];
   if (url.searchParams.get("category")) {
     filters.push(`category = "${url.searchParams.get("category")}"`);
   }

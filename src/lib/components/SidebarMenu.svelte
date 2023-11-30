@@ -1,9 +1,11 @@
 <script lang="ts">
   import { base } from "$app/paths";
   import { page } from "$app/stores";
+  import { useUser } from "$lib/pb";
   import type { RecordModel } from "pocketbase";
   let categories: RecordModel[] = [];
   $: categories = $page.data.categories || [];
+  const user = useUser();
 </script>
 
 <div class="flex flex-col w-full">
@@ -53,6 +55,14 @@
         <a href="{base}/incidents?type=low">Riesgo bajo</a>
       </div>
     </div>
+    {#if $user?.admin}
+      <div class="flex w-full justify-between pt-2">
+        <div class="flex items-center space-x-2">
+          <un-i-carbon-trash-can class="text-red" />
+          <a href="{base}/incidents/trashcan">Papelera</a>
+        </div>
+      </div>
+    {/if}
   </div>
   <div class="flex w-full p4 justify-between">
     <div class="flex items-center space-x-2 text-xl">
@@ -118,6 +128,14 @@
         <a href="{base}/vulnerabilities?status=solved">Resueltas</a>
       </div>
     </div>
+    {#if $user?.admin}
+      <div class="flex w-full justify-between pt-2">
+        <div class="flex items-center space-x-2">
+          <un-i-carbon-trash-can class="text-red" />
+          <a href="{base}/vulnerabilities/trashcan">Papelera</a>
+        </div>
+      </div>
+    {/if}
   </div>
   {#if categories.length}
     <div class="flex w-full px4 pl6 pt4 justify-between">

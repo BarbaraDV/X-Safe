@@ -1,0 +1,317 @@
+.objectives-section {
+    background: transparent;
+    padding: 6rem 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index: 1;
+    position: relative;
+}
+
+.card {
+    background: #191c29;
+    width: calc(65vh / 1.5);
+    height: 65vh;
+    padding: 3px;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    font-size: 1.5em;
+    color: rgb(88 199 250 / 100%);
+    cursor: pointer;
+    position: relative;
+    margin: 0 10px;
+    font-family: 'Basier Square Medium', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 3rem;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .card {
+        max-width: calc(55vh / 1.5);
+        /* Ancho para pantallas medianas */
+        min-height: calc(55vh / 1.5);
+        /* Alto para pantallas medianas */
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: calc(65vh);
+        /* Ancho mayor para pantallas más pequeñas */
+        min-height: calc(65vh);
+        /* Alto mayor para pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        max-width: 90vw;
+        /* Ancho casi total en pantallas muy pequeñas */
+        min-height: calc(90vw / 1.2);
+        /* Alto proporcionalmente mayor para mantener el contenido legible */
+    }
+}
+
+
+.card-title {
+    text-align: center;
+    font-size: 2.5vw;
+    margin: 1rem 0 1rem 0;
+}
+
+.card-text {
+    text-align: center;
+    color: white;
+    font-size: 1.5vw;
+    padding: 0 2rem;
+    text-wrap: pretty;
+}
+
+/* Establece un tamaño de fuente máximo y mínimo para dispositivos grandes */
+@media (min-width: 1200px) {
+    .card-title {
+        /* Si el tamaño de la fuente calculada en 'vw' es menor que 20px, usa 20px */
+        font-size: calc(1.5vw + 1px);
+
+    }
+
+    .card-text {
+        /* Si el tamaño de la fuente calculada en 'vw' es menor que 14px, usa 14px */
+        font-size: calc(1vw + 1px);
+
+    }
+}
+
+/* Para pantallas medianas, reduce el tamaño de la fuente */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .card-title {
+        font-size: 22px;
+        /* Tamaño intermedio para pantallas medianas */
+    }
+
+    .card-text {
+        font-size: 15px;
+        /* Tamaño intermedio para pantallas medianas */
+    }
+}
+
+/* Para pantallas pequeñas, reduce aún más el tamaño de la fuente */
+@media (max-width: 767px) {
+    .card-title {
+        font-size: 18px;
+        /* Tamaño de fuente adecuado para dispositivos pequeños */
+    }
+
+    .card-text {
+        font-size: 13px;
+        /* Tamaño de fuente adecuado para dispositivos pequeños */
+    }
+}
+
+/* Para pantallas muy pequeñas, como teléfonos móviles, establece un tamaño de fuente mínimo */
+@media (max-width: 600px) {
+    .card-title {
+        font-size: 16px;
+        /* Tamaño de fuente mínimo para teléfonos móviles */
+    }
+
+    .card-text {
+        font-size: 12px;
+        /* Tamaño de fuente mínimo para teléfonos móviles */
+    }
+}
+
+.card::before {
+    content: "";
+    width: 104%;
+    height: 102%;
+    border-radius: 8px;
+    background-image: linear-gradient(var(--rotate), rgb(206, 46, 238), rgb(15, 195, 233));
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 10s linear infinite;
+}
+
+.card::after {
+    position: absolute;
+    content: "";
+    top: calc(65vh / 10);
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    transform: scale(0.8);
+    filter: blur(calc(55vh / 6));
+    background-image: linear-gradient(var(--rotate), rgb(206, 46, 238), rgb(15, 195, 233));
+    opacity: 1;
+    transition: opacity .5s;
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+
+    100% {
+        --rotate: 360deg;
+    }
+}
+
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+}
+
+.cards-container {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.cards-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cards-container:hover {
+    transform: scale(1.05);
+}
+
+
+.intro-section {
+    position: relative;
+    padding: 120px 15px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+/* Para centrar el .container y limitar su ancho en pantallas grandes */
+.intro-section .container {
+    width: 100%;
+    max-width: 1200px;
+    /* Puedes ajustar esto al ancho máximo que prefieras */
+    margin: 0 auto;
+    /* Esto es para centrar el .container si no ocupa el 100% del ancho */
+}
+
+/* Media queries para adaptar el padding y el tamaño del texto en diferentes puntos de ruptura */
+@media (max-width: 992px) {
+    .intro-section {
+        padding: 80px 15px;
+        /* Reduce el padding para dispositivos medianos */
+    }
+
+    .intro-section .content-col,
+    .intro-section .image-col {
+        /* Para pantallas más pequeñas, haz que tomen todo el ancho */
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .intro-section {
+        padding: 60px 15px;
+        /* Reduce el padding para dispositivos pequeños */
+    }
+
+    .intro-section .content-col .content-inner,
+    .intro-section .image-col .image-inner {
+        /* Ajusta el padding para mantener la consistencia en el diseño */
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+.heading-text {
+    font-size: 4.5rem;
+}
+
+.subtitle-text {
+    font-size: 2rem;
+    margin: 5px 0 10px;
+}
+
+.description-text {
+    text-align: justify;
+    padding-bottom: 1rem;
+}
+
+.image-col {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    padding-left: 4rem;
+    border-radius: 6px;
+    border: none;
+    background: none;
+
+}
+
+.image-inner {
+    border: none;
+    /* Elimina cualquier borde del contenedor de la imagen */
+    background: none;
+    /* Asegúrate de que no haya un fondo que parezca un borde */
+    padding: 0;
+    /* Elimina cualquier padding */
+}
+
+.image-frame {
+    border: none;
+    /* Elimina cualquier borde del contenedor de la imagen */
+    background: none;
+    /* Asegúrate de que no haya un fondo que parezca un borde */
+    padding: 0;
+    /* Elimina cualquier padding */
+}
+
+.frame-image {
+    border: none;
+    /* Elimina cualquier borde del contenedor de la imagen */
+    background: none;
+    /* Asegúrate de que no haya un fondo que parezca un borde */
+    padding: 0;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px 0 rgba(15, 195, 233, 0.75);
+}
+
+.intro-section {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.intro-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -16,11 +16,14 @@ export const actions = {
     try {
       await locals.pb
         .collection("users")
+        .getFirstListItem(`blocked = false && email = "${data.email}"`);
+      await locals.pb
+        .collection("users")
         .authWithPassword(data.email, data.password);
     } catch (e) {
       console.error(e);
       if (e instanceof ClientResponseError) {
-        return fail(400, { error: e.message });
+        return fail(400, { error: "Correo o contraseña incorrectos" });
       }
       throw e;
     }

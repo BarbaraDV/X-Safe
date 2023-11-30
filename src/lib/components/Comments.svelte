@@ -15,21 +15,27 @@
     invalidateAll();
   }
 
+  async function toggleHide(id: string, status: boolean) {
+    await pb.collection("comments").update(id, { deleted: status });
+    invalidateAll();
+  }
+
   let user = useUser();
 
   let edit: string | null = null;
 
   export let comments: RecordModel[];
 
-  $: commentsOrdered = (comments || []).sort(
-    ({ created: a }: RecordModel, { created: b }: RecordModel) =>
+  $: commentsOrdered = (comments || [])
+    .filter((c) => $user?.admin || !c.deleted)
+    .sort(({ created: a }: RecordModel, { created: b }: RecordModel) =>
       a > b ? -1 : a < b ? 1 : 0
-  );
+    );
 </script>
 
 <div class="flex flex-col space-y-2 pt-4">
   <div class="font-bold pb-4">
-    {(comments || []).length} comentarios
+    {(commentsOrdered || []).length} comentarios
   </div>
   <div
     class="bg-light-200 border dark:border-dark-50 dark:bg-dark-600 flex p4 flex-col space-y-4 rounded-lg"
@@ -40,6 +46,7 @@
     {#each commentsOrdered || [] as comment}
       <div
         class="bg-light-200 border dark:border-dark-50 dark:bg-dark-600 flex p4 flex-col space-y-4 rounded-lg"
+        class:opacity-50={comment.deleted}
       >
         <div
           class="flex w-full justify-between lg:items-center <lg:(space-y-2 flex-col) lg:space-x-2"
@@ -75,6 +82,23 @@
                 >
                   <un-i-carbon-pen />
                   <span class="text-xs">Modificar comentario</span>
+                </button>
+              {/if}
+              {#if $user?.admin}
+                <button
+                  class="bg-purple-500 p2 rounded transition-200 hover:bg-purple-400 text-white flex items-center space-x-2 text-center justify-center <lg:w-full"
+                  on:click={() => toggleHide(comment.id, !comment.deleted)}
+                >
+                  {#if comment.deleted}
+                    <un-i-carbon-view />
+                  {:else}
+                    <un-i-carbon-view-off />
+                  {/if}
+                  <span class="text-xs"
+                    >{comment.deleted
+                      ? "Mostrar comentario"
+                      : "Ocultar comentario"}</span
+                  >
                 </button>
               {/if}
               <button

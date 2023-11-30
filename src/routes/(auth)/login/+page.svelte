@@ -40,7 +40,7 @@
         required
         type="email"
         name="email"
-        placeholder="Ej. pepe@gmail.com"
+        placeholder="Ej. user@email.com"
         class="bg-light-700 p-2 rounded text-gray-700 w-full flex"
       />
     </label>

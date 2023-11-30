@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
+  import { goto, invalidateAll } from "$app/navigation";
   import { base } from "$app/paths";
   import { pb, useUser } from "$lib";
   import IncidentEditor from "$lib/components/IncidentEditor.svelte";
@@ -40,13 +40,32 @@
         <un-i-carbon-upload />
         <span class="text-xs">Subir cambios</span>
       </button>
+      {#if data.incident.deleted && $user?.admin}
+        <button
+          class="bg-green-500 p2 rounded transition-200 hover:bg-green-400 text-white flex items-center space-x-2 <lg:w-full items-center justify-center"
+          type="button"
+          on:click={async () => {
+            await pb.collection("incidents").update(data.incident.id || "", {
+              deleted: false,
+            });
+            await invalidateAll();
+          }}
+        >
+          <un-i-carbon-trash-can />
+          <span class="text-xs">Restaurar</span>
+        </button>
+      {/if}
       <button
         class="bg-red-500 p2 rounded transition-200 hover:bg-red-400 text-white flex items-center space-x-2 <lg:w-full items-center justify-center"
         type="button"
         on:click={del}
       >
         <un-i-carbon-trash-can />
-        <span class="text-xs">Eliminar</span>
+        <span class="text-xs"
+          >{data.incident.deleted
+            ? "Eliminar permanentemente"
+            : "Eliminar"}</span
+        >
       </button>
     </div>
   </div>

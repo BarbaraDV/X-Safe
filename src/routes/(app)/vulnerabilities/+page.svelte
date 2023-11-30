@@ -49,7 +49,7 @@
     <label class="flex flex-col space-y-2 w-full">
       <span class="text-xs font-bold">Categoría</span>
       <CategoryDropdown
-        collection="active_categories"
+        collection="categories"
         crud={false}
         on:clear
         on:clear={() => {
@@ -185,11 +185,11 @@
               class="px4 py1 rounded-full bg-gray-200 dark:bg-dark-200 flex self-start items-center space-x-2"
             >
               <un-i-carbon-category />
-              {#if i.expand?.category}
+              {#if i.category}
                 <a
                   class="hover:underline"
-                  href="{base}/vulnerabilities?category={i.expand.category.id}"
-                  >{i.expand.category.name}</a
+                  href="{base}/vulnerabilities?category={i.category}"
+                  >{i.category}</a
                 >
                 <un-i-carbon-arrow-up-right />
               {:else}
