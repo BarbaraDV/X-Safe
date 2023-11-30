@@ -20,10 +20,10 @@
 
   async function clearTrash() {
     const items = await pb
-      .collection("vulnerabilities")
+      .collection("incidents")
       .getFullList({ filter: "deleted = true" });
     const promises = items.map((i) =>
-      pb.collection("vulnerabilities").delete(i.id, {
+      pb.collection("incidents").delete(i.id, {
         requestKey: i.id,
       })
     );
